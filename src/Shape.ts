@@ -29,7 +29,7 @@ export abstract class Shape {
 
     public getPerimeter(): number {
         return this.points.reduce((acc, point, index, array) => {
-            if(index !== array.length - 1) {
+            if (index !== array.length - 1) {
                 acc = acc + point.distance(array[index + 1]);
             } else {
                 acc = acc + point.distance(array[0]);
