@@ -10,7 +10,7 @@ export abstract class Item implements Comparable<Item> {
         this.id = id++;
     }
 
-    public abstract use(): void;
+    public abstract use(): void | string;
 
     public compareTo(other: Item): number {
         if(this.value === other.value) {
