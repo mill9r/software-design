@@ -6,7 +6,7 @@ export abstract class Item implements Comparable<Item> {
     private numberOfItems: number;
     private id: number;
 
-    protected constructor(private name: string, private value: number, private weight: number) {
+    protected constructor(protected name: string, protected value: number, protected weight: number) {
         this.id = id++;
     }
 
