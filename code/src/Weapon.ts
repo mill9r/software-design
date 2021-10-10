@@ -42,10 +42,10 @@ export abstract class Weapon extends Item {
       this.durability = this.getDurability() - this.MODIFIER_CHANGE_RATE;
 
       if(this.getDurability() <= 0) {
-          return `You use the ${this.getName()}, dealing ${this.getDamage} points of damage. The hammer breaks.`
+          return `You use the ${this.getName()}, dealing ${this.getDamage()} points of damage. The hammer breaks.`
       }
 
-      return `You use the ${this.getName()}, dealing ${this.getDamage} points of damage.`
+      return `You use the ${this.getName()}, dealing ${this.getDamage()} points of damage.`
   }
 
 }

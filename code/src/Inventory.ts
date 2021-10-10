@@ -15,8 +15,9 @@ export class Inventory {
     public sort(comparator?: ItemComparator): void {
         if(!comparator) {
             this.items.sort();
+        } else {
+            this.items.sort(comparator.compare)
         }
-        this.items.sort(comparator.compare)
     }
 
     public toString(): string {
