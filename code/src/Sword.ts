@@ -4,13 +4,11 @@ export class Sword extends Weapon {
     private maxBaseDamage: number;
     private maxPercentageDamageImprovement: number = 0.25;
     public constructor(
-            protected value: number,
-            protected weight: number,
             protected baseDamage: number,
-            protected damageModifier: number,
             protected baseDurability: number,
-            protected durabilityModifier: number) {
-        super('sword',value, weight, baseDamage, damageModifier, baseDurability, durabilityModifier);
+            protected value: number,
+            protected weight: number,) {
+        super('sword',value, weight, baseDamage, 0.3, baseDurability, 0.35);
         this.maxBaseDamage = this.getMaxPossibleSwordBaseDamage();
     }
 
