@@ -1,12 +1,18 @@
 import {State} from "../src/state";
 import {ShipmentIdGenerator} from "../src/shipment-id-generator";
 import {Shipment} from "../src/shipment";
-import {Context} from "../src/strategy/context";
+import {Context, strategyName} from "../src/strategy/context";
+import {AirEastShipper} from "../src/strategy/air-east-shipper";
+import {PacificParcelShipper} from "../src/strategy/pacific-parcel-shipper";
+import {ChicagoSprintShipper} from "../src/strategy/chicago-sprint-shipper";
 
 
 describe('Shipment strategy ChicagoSprintShipper', () => {
     it('ship', () => {
         const context = new Context();
+        context.setStrategy(strategyName.airEastShipper,new AirEastShipper());
+        context.setStrategy(strategyName.pacificParcelShipper,new PacificParcelShipper());
+        context.setStrategy(strategyName.chicagoSprintShipper,new ChicagoSprintShipper());
 
         const state = new State(
             ShipmentIdGenerator.getShipmentId(),
@@ -26,6 +32,9 @@ describe('Shipment strategy ChicagoSprintShipper', () => {
 describe('Shipment strategy AirEastShipper', () => {
     it('ship', () => {
         const context = new Context();
+        context.setStrategy(strategyName.airEastShipper,new AirEastShipper());
+        context.setStrategy(strategyName.pacificParcelShipper,new PacificParcelShipper());
+        context.setStrategy(strategyName.chicagoSprintShipper,new ChicagoSprintShipper());
 
         const state = new State(
             ShipmentIdGenerator.getShipmentId(),
@@ -46,6 +55,9 @@ describe('Shipment strategy AirEastShipper', () => {
 describe('Shipment strategy PacificParcelShipper', () => {
     it('ship', () => {
         const context = new Context();
+        context.setStrategy(strategyName.airEastShipper,new AirEastShipper());
+        context.setStrategy(strategyName.pacificParcelShipper,new PacificParcelShipper());
+        context.setStrategy(strategyName.chicagoSprintShipper,new ChicagoSprintShipper());
 
         const state = new State(
             ShipmentIdGenerator.getShipmentId(),
