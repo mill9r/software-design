@@ -7,14 +7,14 @@ function $id(id: string): HTMLInputElement {
     return element as HTMLInputElement;
 }
 
-function updateView(items: State): void {
+function updateView(items: State, isHtmlValueIgnored?:  boolean): void {
     Object.keys(items).forEach(
         key => {
             const htmlValue = (items[key] as ExchangeCurrency).htmlId;
             const currencyValue = (items[key] as ExchangeCurrency).toCurrency;
 
-            if (isNotEmpty(htmlValue) && isNotEmpty(currencyValue)) {
-                $id(htmlValue).value = String(currencyValue);
+            if ((isHtmlValueIgnored || isNotEmpty(htmlValue)) && isNotEmpty(currencyValue)) {
+                $id(htmlValue).value = convertToValidHtmlInput(currencyValue);
             }
         }
     )
@@ -23,3 +23,14 @@ function updateView(items: State): void {
 function isNotEmpty(value: string | number): boolean {
     return !!value;
 }
+
+function convertToValidHtmlInput(value:number): string {
+    return String(toFixedAfterDecimalPoint(value))
+}
+
+function toFixedAfterDecimalPoint(number: number, digits = 2): number {
+    return Number(number.toFixed(digits));
+}
+
+const getKeyValue = <T extends object, U extends keyof T>(obj: T) => (key: U) =>
+    obj[key];

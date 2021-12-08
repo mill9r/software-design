@@ -12,3 +12,10 @@ interface State extends IObjectKeys{
     eurToUsd: ExchangeCurrency;
     eurToRub: ExchangeCurrency;
 }
+
+interface ExchangeRate {
+    eurToUsd: number;
+    eurToRub: number;
+}
+
+type exchangeRateType = keyof ExchangeRate;

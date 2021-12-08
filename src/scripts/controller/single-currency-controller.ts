@@ -14,8 +14,7 @@ class SingleCurrencyController {
         euro$
             .map((value: any) => {
                 const euroValue = Number(value.target.value);
-                const exchanged = euroValue * exchangeRate.eurToUsd;
-                model.updateState('eurToUsd', exchanged, euroValue, 'usdInputControl');
+                model.updateState(adaptCurrency(this.isShareMode, 'eurToUsd', euroValue, model.getStateValue(), exchangeRate, 'usdInputControl'));
             })
             .subscribe({
                 next() {
@@ -26,15 +25,14 @@ class SingleCurrencyController {
         rub$
             .map((value: any) => {
                 const rubValue = Number(value.target.value);
-                const exchanged = rubValue * exchangeRate.eurToRub;
-                model.updateState('eurToRub', exchanged, rubValue, 'rubInputControl');
+                model.updateState(adaptCurrency(this.isShareMode, 'eurToRub', rubValue, model.getStateValue(), exchangeRate, 'rubInputControl'));
             })
             .subscribe({
                 next() {
                 }
             });
 
-        this.state$ = model.getState();
+        this.state$ = model.getState$();
 
         this.state$
             .map((state: State) => updateView(state))
@@ -44,8 +42,9 @@ class SingleCurrencyController {
             })
     }
 
-
+// TODO getShareState
     public getState(value: boolean): void {
+        console.log('isShareMode:', value)
         this.isShareMode = value;
     }
 

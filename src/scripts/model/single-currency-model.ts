@@ -1,4 +1,4 @@
-class SingleCurrencyModel {
+class SingleCurrencyModel implements Exchange {
     private subject = new Subject();
     private exchangeState = {
         eurToUsd: {
@@ -13,11 +13,17 @@ class SingleCurrencyModel {
         }
     }
 
-    public getState(): Subject {
+    public getState$(): Subject {
         return this.subject;
     }
 
-    public updateState(key: string, exchangedCourse: number, originCourse: number, id: string): void {
-        this.subject.next(updateCurrency(key, exchangedCourse, originCourse, this.exchangeState, id));
+    public getStateValue(): State {
+        return this.exchangeState;
+    }
+
+    public updateState(state: State): void {
+        console.log(state)
+        this.exchangeState = {...state};
+        this.subject.next(this.exchangeState);
     }
 }
