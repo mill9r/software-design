@@ -22,7 +22,6 @@ class SingleCurrencyModel implements Exchange {
     }
 
     public updateState(state: State): void {
-        console.log(state)
         this.exchangeState = {...state};
         this.subject.next(this.exchangeState);
     }

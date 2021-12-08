@@ -3,18 +3,21 @@ const exchangeRate = {
     eurToRub: 83
 }
 
-class SingleCurrencyController {
+class InputCurrencyController {
     public mode = false;
     public isShareMode = false;
-    private state$: Subject;
+    private state$: Subject = new Subject();
+    private model: Exchange;
 
-    constructor(private model: SingleCurrencyModel) {
+    constructor(private inputContext: InputContext) {
+
+        this.model = this.inputContext.getStrategy(InputStrategy.singleInput)
 
         const euro$ = Observable.fromEvent($id('euroInputControl'), 'input');
         euro$
             .map((value: any) => {
                 const euroValue = Number(value.target.value);
-                model.updateState(adaptCurrency(this.isShareMode, 'eurToUsd', euroValue, model.getStateValue(), exchangeRate, 'usdInputControl'));
+                this.model.updateState(adaptCurrency(this.isShareMode, 'eurToUsd', euroValue, this.model.getStateValue(), exchangeRate, 'usdInputControl'));
             })
             .subscribe({
                 next() {
@@ -25,32 +28,33 @@ class SingleCurrencyController {
         rub$
             .map((value: any) => {
                 const rubValue = Number(value.target.value);
-                model.updateState(adaptCurrency(this.isShareMode, 'eurToRub', rubValue, model.getStateValue(), exchangeRate, 'rubInputControl'));
+                this.model.updateState(adaptCurrency(this.isShareMode, 'eurToRub', rubValue, this.model.getStateValue(), exchangeRate, 'rubInputControl'));
             })
             .subscribe({
                 next() {
                 }
             });
 
+        this.updateSubscription(this.model);
+    }
+
+    public getState(value: boolean): void {
+        console.log('isShareMode:', value)
+        this.isShareMode = value;
+        this.model = this.isShareMode ? this.inputContext.getStrategy(InputStrategy.sharedInput) : this.inputContext.getStrategy(InputStrategy.singleInput);
+        this.updateSubscription(this.model);
+        console.log(this.model);
+    }
+
+
+    private updateSubscription(model: Exchange): void {
         this.state$ = model.getState$();
 
         this.state$
-            .map((state: State) => updateView(state))
+            .map((state: State) => updateView(state, this.mode))
             .subscribe({
                 next() {
                 }
             })
-    }
-
-// TODO getShareState
-    public getState(value: boolean): void {
-        console.log('isShareMode:', value)
-        this.isShareMode = value;
-    }
-
-    // key, value
-    private applyShareMode(keys: State, value: number): void {
-        const result = Object.keys(keys)
-        // this.model.updateAllFieldsOnModel()
     }
 }

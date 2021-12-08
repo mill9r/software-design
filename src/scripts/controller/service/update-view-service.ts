@@ -12,7 +12,6 @@ function updateView(items: State, isHtmlValueIgnored?:  boolean): void {
         key => {
             const htmlValue = (items[key] as ExchangeCurrency).htmlId;
             const currencyValue = (items[key] as ExchangeCurrency).toCurrency;
-
             if ((isHtmlValueIgnored || isNotEmpty(htmlValue)) && isNotEmpty(currencyValue)) {
                 $id(htmlValue).value = convertToValidHtmlInput(currencyValue);
             }

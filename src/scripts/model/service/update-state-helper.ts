@@ -20,7 +20,7 @@ function adaptSingleCurrency(key: string, originCourse: number, state: State, ex
 
 function updateCurrencyForAll(originCourse: number, exchangeRate: ExchangeRate, state: State): State {
     const updatedState  = Object.keys(exchangeRate).reduce((acc: any, key: string) => {
-            const exchangedValue = getKeyValue(exchangeRate)(key as exchangeRateType) * originCourse;
+            const exchangedValue = toFixedAfterDecimalPoint(getKeyValue(exchangeRate)(key as exchangeRateType) * originCourse);
             const tempState = getKeyValue(state)(key as exchangeRateType) as ExchangeCurrency
             tempState.toCurrency = exchangedValue;
             return {
