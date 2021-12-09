@@ -20,20 +20,23 @@ function adaptSingleCurrency(key: string, originCourse: number, state: State, ex
 }
 
 function updateCurrencyForAll(stateKey: string, originCourse: number, exchangeRate: ExchangeRate, state: State, fromHtmlId?: string): State {
-    const updatedState  = Object.keys(exchangeRate).reduce((acc: any, key: string) => {
-            const exchangedValue = toFixedAfterDecimalPoint(getKeyValue(exchangeRate)(key as exchangeRateType) * originCourse);
-            const tempState = getKeyValue(state)(key as exchangeRateType) as ExchangeCurrency
-
-            // TODO SRP
-            if(stateKey === key) {
-                tempState.fromCurrency = originCourse;
-                tempState.fromHtmlId = fromHtmlId;
-            }
-            tempState.toCurrency = exchangedValue;
-            return {
-                ...acc,
-                [key] : tempState
-            }
-        }, {})
+    const updatedState = Object.keys(exchangeRate).reduce((acc: any, key: string) => {
+        const exchangedValue = toFixedAfterDecimalPoint(getKeyValue(exchangeRate)(key as exchangeRateType) * originCourse);
+        const tempState = tryUpdateState(getKeyValue(state)(key as exchangeRateType) as ExchangeCurrency, stateKey, key, originCourse, fromHtmlId);
+        tempState.toCurrency = exchangedValue;
+        return {
+            ...acc,
+            [key]: tempState
+        }
+    }, {})
     return updatedState;
+}
+
+function tryUpdateState(state: ExchangeCurrency, stateKey: string, key: string, originCourse: number, fromHtmlId?: string): ExchangeCurrency {
+    const stateCopy = {...state};
+    if (stateKey === key) {
+        stateCopy.fromCurrency = originCourse;
+        stateCopy.fromHtmlId = fromHtmlId;
+    }
+    return stateCopy;
 }
