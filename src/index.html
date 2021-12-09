@@ -9,57 +9,47 @@
     <h1>Currency calculator</h1>
 </header>
 <main>
-    <section>
-        <h2>Apply converted value to all currencies?</h2>
-        <form name="exchangeMode">
-            <input type="radio" value="yes" id="yesLabel" name="share" onchange="ev.getState(true)"><label
-                for="yesLabel">Yes</label>
-            <input type="radio" value="no" id="noLabel" name="share" checked onchange="ev.getState(false)"><label
-                for="noLabel">No</label>
-        </form>
-    </section>
-    <section>
-        <h2>EUR to USD section</h2>
-        <div>
-            <label for="euroInputControl">EUR</label>
-            <input id="euroInputControl" type="number" value="">
-        </div>
-        <div>
-            <label for="usdInputControl">USD</label>
-            <input id="usdInputControl" type="number" data-input="inputData" value="">
-        </div>
-        <h2>EUR to RUB section</h2>
-        <div>
-            <label for="euroInputControl1">EUR</label>
-            <input id="euroInputControl1" type="number" value="">
-        </div>
-        <div>
-            <label for="rubInputControl">RUB</label>
-            <input id="rubInputControl" type="number" data-input="inputData" value="">
-        </div>
-    </section>
+    <h2>Select view?</h2>
 
+    <form name="view">
+        <input type="radio" value="yes" id="yesLabel" name="inputType" onchange="getView(true)"><label
+            for="yesLabel">Based on range exchange</label>
+        <input type="radio" value="no" id="noLabel" name="inputType" checked onchange="getView(false)"><label
+            for="noLabel">Based on input exchange</label>
+    </form>
+    <section id="contentView"></section>
 </main>
 </body>
 <script src="public/src/scripts/observable/observable.js"></script>
 <script src="public/src/scripts/interfaces/exchange-currency.js"></script>
 <script src="public/src/scripts/interfaces/exchange-model.js"></script>
+<script src="public/src/scripts/interfaces/exchange-view.js"></script>
 <script src="public/src/scripts/constants/strategies.js"></script>
 
-<script src="public/src/scripts/controller/service/input-strategy.js"></script>
-<script src="public/src/scripts/controller/service/update-view-service.js"></script>
-<script src="public/src/scripts/controller/single-currency-controller.js"></script>
+<script src="public/src/scripts/controller/service/model-strategy.js"></script>
+<script src="public/src/scripts/controller/service/view-strategy.js"></script>
+<script src="public/src/scripts/controller/exchange-controller.js"></script>
 
 <script src="public/src/scripts/model/service/update-state-helper.js"></script>
 <script src="public/src/scripts/model/single-currency-model.js"></script>
-<script src="public/src/scripts/model/shared-single-currency-model.js"></script>
+<script src="public/src/scripts/model/shared-currency-model.js"></script>
+
+<script src="public/src/scripts/view/service/view-service.js"></script>
+<script src="public/src/scripts/view/input-exchange-view.js"></script>
+<script src="public/src/scripts/view/range-exchange-view.js "></script>
 <script>
+    getView(false);
+    function getView(state) {
 
+        const inputStrategy = new ModelContext();
+        inputStrategy.setStrategy(InputStrategy.singleInput, new SingleCurrencyModel());
+        inputStrategy.setStrategy(InputStrategy.sharedInput, new SharedCurrencyModel());
+        const viewStrategy = new ViewContext();
+        viewStrategy.setStrategy(ViewStrategy.inputView, new InputExchangeView());
+        viewStrategy.setStrategy(ViewStrategy.rangeView, new RangeExchangeView());
 
-    const strategy = new InputContext();
-    strategy.setStrategy(InputStrategy.singleInput, new SingleCurrencyModel());
-    strategy.setStrategy(InputStrategy.sharedInput, new SharedCurrencyModel());
-    let ev = new InputCurrencyController(strategy);
-
+        let input = new ExchangeController(inputStrategy, viewStrategy, 'contentView');
+        input.switchView(state);
+    }
 </script>
 </html>

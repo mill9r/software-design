@@ -2,6 +2,7 @@ interface ExchangeCurrency {
     fromCurrency: number;
     toCurrency: number;
     htmlId: string;
+    fromHtmlId?: string;
 }
 
 interface IObjectKeys {

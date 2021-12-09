@@ -23,7 +23,6 @@ class SharedCurrencyModel implements Exchange {
 
     public updateState(state: State): void {
         this.exchangeState = {...state};
-        console.log(this.exchangeState);
         this.subject.next(this.exchangeState);
     }
 }
