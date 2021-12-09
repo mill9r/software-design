@@ -3,9 +3,9 @@ class RangeExchangeView extends ExchangeView {
     <section>
         <h2>Apply converted value to all currencies?</h2>
         <form id="inputExchangeModeForm" name="exchangeMode">
-            <input type="radio" value="share" id="yesLabel" name="shareInput"><label
+            <input type="radio" value="sharedInput" id="yesLabel" name="shareInput"><label
                 for="yesLabel">Yes</label>
-            <input type="radio" value="independent" id="noLabel" name="shareInput" checked><label
+            <input type="radio" value="singleInput" id="noLabel" name="shareInput" checked><label
                 for="noLabel">No</label>
         </form>
     </section>
@@ -50,7 +50,7 @@ class RangeExchangeView extends ExchangeView {
     public drawLayout(id: string): void{
         deleteChildNodes(id);
         setView(stringToHtml(this.template), id);
-        this.startChangeModeSubscription('inputExchangeModeForm', 'input[name="shareInput"]', 'share');
+        this.startChangeModeSubscription('inputExchangeModeForm', 'input[name="shareInput"]');
     }
 
     public updateLayout(items: State, isHtmlValueIgnored?: boolean): void {

@@ -1,6 +1,5 @@
-function adaptCurrency(shareMode: boolean, key: string, originCourse: number, state: State, exchangeRate: ExchangeRate, htmlId: string, fromHtmlId?: string): State {
-
-    if (!shareMode) {
+function adaptCurrency(shareMode: string, key: string, originCourse: number, state: State, exchangeRate: ExchangeRate, htmlId: string, fromHtmlId?: string): State {
+    if (shareMode === InputStrategy.singleInput) {
         return adaptSingleCurrency(key, originCourse, state, exchangeRate, htmlId, fromHtmlId)
     }
 

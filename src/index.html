@@ -39,6 +39,7 @@
 <script src="public/src/scripts/view/range-exchange-view.js "></script>
 <script>
     getView(false);
+
     function getView(state) {
 
         const inputStrategy = new ModelContext();
@@ -47,8 +48,7 @@
         const viewStrategy = new ViewContext();
         viewStrategy.setStrategy(ViewStrategy.inputView, new InputExchangeView());
         viewStrategy.setStrategy(ViewStrategy.rangeView, new RangeExchangeView());
-
-        let input = new ExchangeController(inputStrategy, viewStrategy, 'contentView');
+        let input = new ExchangeController(inputStrategy, viewStrategy, 'contentView', ViewStrategy.inputView, InputStrategy.singleInput);
         input.switchView(state);
     }
 </script>

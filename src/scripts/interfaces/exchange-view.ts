@@ -18,15 +18,15 @@ abstract class ExchangeView {
         return this.state;
     }
 
-    protected updateState(state: boolean): void {
+    protected updateState(state: string): void {
         this.state.next(state);
     }
 
-    protected startChangeModeSubscription(input: string, radioButtonsGroup: string, radioGroupName: string): void {
+    protected startChangeModeSubscription(input: string, radioButtonsGroup: string): void {
         Observable.fromEvent($id(input), 'change')
             .map(() => {
                 const selectedValue = this.getSelectedState(radioButtonsGroup);
-                this.updateState(selectedValue === radioGroupName);
+                this.updateState(selectedValue);
             })
             .subscribe({
                 next() {
