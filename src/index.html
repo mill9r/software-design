@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task-6 MVC</title>
+    <script src="public/src/scripts/constants/strategies.js"></script>
+</head>
+<body>
+<header>
+    <h1>Currency calculator</h1>
+</header>
+<main>
+    <h2>Select view?</h2>
+
+    <form name="view">
+        <input type="radio" value="yes" id="yesLabel" name="inputType" onchange="getView(ViewStrategy.rangeView)"><label
+            for="yesLabel">Based on range exchange</label>
+        <input type="radio" value="no" id="noLabel" name="inputType" checked onchange="getView(ViewStrategy.inputView)"><label
+            for="noLabel">Based on input exchange</label>
+    </form>
+    <section id="contentView"></section>
+</main>
+</body>
+<script src="public/src/scripts/observable/observable.js"></script>
+<script src="public/src/scripts/interfaces/exchange-currency.js"></script>
+<script src="public/src/scripts/interfaces/exchange-model.js"></script>
+<script src="public/src/scripts/interfaces/exchange-view.js"></script>
+
+<script src="public/src/scripts/controller/service/model-strategy.js"></script>
+<script src="public/src/scripts/controller/service/view-strategy.js"></script>
+<script src="public/src/scripts/controller/exchange-controller.js"></script>
+
+<script src="public/src/scripts/model/service/update-state-helper.js"></script>
+<script src="public/src/scripts/model/single-currency-model.js"></script>
+<script src="public/src/scripts/model/shared-currency-model.js"></script>
+
+<script src="public/src/scripts/view/service/view-service.js"></script>
+<script src="public/src/scripts/view/input-exchange-view.js"></script>
+<script src="public/src/scripts/view/range-exchange-view.js "></script>
+<script>
+    getView(ViewStrategy.inputView);
+
+    function getView(strategy) {
+
+        const inputStrategy = new ModelContext();
+        inputStrategy.setStrategy(InputStrategy.singleInput, new SingleCurrencyModel());
+        inputStrategy.setStrategy(InputStrategy.sharedInput, new SharedCurrencyModel());
+        const viewStrategy = new ViewContext();
+        viewStrategy.setStrategy(ViewStrategy.inputView, new InputExchangeView());
+        viewStrategy.setStrategy(ViewStrategy.rangeView, new RangeExchangeView());
+        let input = new ExchangeController(inputStrategy, viewStrategy, 'contentView', ViewStrategy.inputView, InputStrategy.singleInput);
+        input.switchView(strategy);
+    }
+</script>
+</html>
