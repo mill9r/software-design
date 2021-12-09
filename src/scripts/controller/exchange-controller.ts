@@ -26,12 +26,8 @@ class ExchangeController {
     }
 
 
-    public switchView(state: boolean): void {
-        if (state) {
-            this.view = this.viewContext.getStrategy(ViewStrategy.rangeView);
-        } else {
-            this.view = this.viewContext.getStrategy(ViewStrategy.inputView);
-        }
+    public switchView(strategy: string): void {
+        this.view = this.viewContext.getStrategy(strategy);
         this.view.drawLayout(this.containerId);
         this.updateStateRef();
         this.updateViewInputRef(this.defaultModelStrategy);
